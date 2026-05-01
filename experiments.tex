@@ -1,0 +1,180 @@
+
+
+
+\subsection{Pointwise first-order accuracy}
+
+Each dataset contributed 50 single-observation perturbations. We started from one fixed set of ten observations per dataset and changed only one weight at a time, using \(w\in\{0.95,0.8,0.5,0.2,0\}\) while keeping all other weights unchanged. For Gaussian models, explicit refits used the near-zero weight \(10^{-8}\) instead of exact deletion, but we report that endpoint as \(w=0\). For each perturbation we computed the first-order change \(\Delta\theta_{\mathrm{pred}}\) and the explicit-refit change \(\Delta\theta_{\mathrm{refit}}\). We summarized their difference by
+\[
+e_{\mathrm{refit}}:=\|\Delta\theta_{\mathrm{refit}}-\Delta\theta_{\mathrm{pred}}\|_2,
+\]
+using only single-observation perturbations.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{static_figures/pred_vs_obtained_all_datasets_compact.png}
+\caption{Predicted versus refit parameter changes for single-observation downweighting. Each dataset contributes one fixed set of ten observations and five weight scales \(w\in\{0.95,0.8,0.5,0.2,0\}\), for 50 perturbations per dataset. The axes give \(\|\Delta\theta_{\mathrm{pred}}\|_2\) and \(\|\Delta\theta_{\mathrm{refit}}\|_2\). Points are colored by weight scale, and the legend reports the within-dataset correlation.}
+\label{fig:pred_vs_obtained_compact}
+\end{figure}
+
+Figure~\ref{fig:pred_vs_obtained_compact} shows that larger predicted changes were usually accompanied by larger refit changes. The within-dataset correlation ranged from 0.586 in \texttt{grouseticks} to 1.000 in \texttt{Arabidopsis}. Five datasets showed close monotone alignment, whereas \texttt{grouseticks} showed the weakest alignment and the largest visible departures from the main trend. In \texttt{cbpp} and \texttt{grouseticks}, the largest discrepancies occurred at the strongest downweighting levels. \texttt{VerbAgg} also showed close alignment, but on a much smaller absolute scale than the other datasets. Median \(e_{\mathrm{refit}}\) was highest in \texttt{Pastes} (\(3.72\times 10^{-3}\)) and lowest in \texttt{VerbAgg} (\(1.93\times 10^{-7}\)).
+Interpreted through Section~\ref{sec:higher_order_theory}, the observations with larger \(e_{\mathrm{refit}}\) are the ones whose weighted refit paths are more curved, so the main heterogeneity is in finite-step nonlinearity rather than in the local derivative itself.
+
+\subsection{Profiled-displacement \texorpdfstring{$Q_i^{\mathrm{disp}}$}{Qdisp} surrogate}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{static_figures/q_vs_obtained_all_datasets_compact.png}
+\caption{Profiled-displacement surrogate \(Q_i^{\mathrm{disp}}\) versus refit prediction error for a separate single-observation run at fixed weight \(w=0.8\). Each dataset contributes 30 observations. The axes give the baseline \(Q_i^{\mathrm{disp}}\) value of the perturbed observation and \(\|\Delta\theta_{\mathrm{refit}}-\Delta\theta_{\mathrm{pred}}\|_2\). Legends report the within-dataset correlation.}
+\label{fig:q_vs_obtained_compact}
+\end{figure}
+
+The association between \(Q_i^{\mathrm{disp}}\) and finite-step error was uneven across datasets. For this comparison we used a separate single-observation run. In each dataset we chose 30 observations and downweighted each one once to the fixed weight \(w=0.8\). For each observation we recorded its baseline \(Q_i^{\mathrm{disp}}\) value and its refit error \(\|\Delta\theta_{\mathrm{refit}}-\Delta\theta_{\mathrm{pred}}\|_2\). Figure~\ref{fig:q_vs_obtained_compact} plots that relationship. The within-dataset correlation was strongest in \texttt{Pastes} (0.975) and \texttt{cbpp} (0.834), intermediate in \texttt{sleepstudy} (0.751), weak in \texttt{grouseticks} (0.164), and near zero in \texttt{Arabidopsis} (-0.034) and \texttt{VerbAgg} (-0.010). Even where the association was positive, the highest-\(Q_i^{\mathrm{disp}}\) cases did not uniformly identify the largest finite-step failures. In \texttt{Arabidopsis} and \texttt{VerbAgg}, the refit errors stayed near zero on the plotted scale.
+
+\FloatBarrier
+\subsection{Higher-order refit paths}
+
+To examine path shape more closely, we returned to the same ten observations used in Figure~\ref{fig:pred_vs_obtained_compact}. In each dataset we took the common endpoint \(w=0.2\) and ranked those ten observations by
+\[
+\|\Delta\theta_{\mathrm{refit}}-\Delta\theta_{\mathrm{pred}}\|_2.
+\]
+This is the endpoint error \(e_{\mathrm{refit}}\) used in the pointwise-accuracy subsection. Ties were broken by smaller observation index. We kept the two largest-error cases and the two smallest-error cases. The legends report the observation index and its endpoint error. For each selected observation we refit the model on a 41-point path from \(w_i=1\) to \(w_i=0.2\), parameterized by \(\tau=1-w_i\), so the common endpoint is \(\tau=0.8\). When \(m_\theta=1\), the top panel shows \(\Delta\theta(\tau)\). When \(m_\theta>1\), let
+\[
+v_i:=\frac{\Delta\theta_{\mathrm{refit}}(0.8)}{\|\Delta\theta_{\mathrm{refit}}(0.8)\|_2},
+\]
+and plot the one-dimensional slice \(v_i^\top \Delta\theta(\tau)\). The lower panels show estimated second and third derivatives along that path.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.49\textwidth}
+\centering
+\includegraphics[width=\linewidth]{static_figures/higher_order_sleepstudy_4obs_w02.png}
+\end{minipage}\hfill
+\begin{minipage}{0.49\textwidth}
+\centering
+\includegraphics[width=\linewidth]{static_figures/higher_order_cbpp_4obs_w02.png}
+\end{minipage}
+\caption{Higher-order refit paths for \texttt{sleepstudy} (left) and \texttt{cbpp} (right). For each dataset, the panels show the refit path and its estimated second- and third-derivative profiles for the two largest-error and two smallest-error observations at \(w=0.2\); the legend reports the observation index and endpoint error \(e_{\mathrm{refit}}\), and multivariate paths are projected onto the endpoint direction in the top panel.}
+\label{fig:higher_order_paths_a}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.49\textwidth}
+\centering
+\includegraphics[width=\linewidth]{static_figures/higher_order_Pastes_4obs_w02.png}
+\end{minipage}\hfill
+\begin{minipage}{0.49\textwidth}
+\centering
+\includegraphics[width=\linewidth]{static_figures/higher_order_Arabidopsis_4obs_w02.png}
+\end{minipage}
+\caption{Higher-order refit paths for \texttt{Pastes} (left) and \texttt{Arabidopsis} (right). For each dataset, the panels show the refit path and its estimated second- and third-derivative profiles for the two largest-error and two smallest-error observations at \(w=0.2\); the legend reports the observation index and endpoint error \(e_{\mathrm{refit}}\), and multivariate paths are projected onto the endpoint direction in the top panel.}
+\label{fig:higher_order_paths_b}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.49\textwidth}
+\centering
+\includegraphics[width=\linewidth]{static_figures/higher_order_grouseticks_4obs_w02.png}
+\end{minipage}\hfill
+\begin{minipage}{0.49\textwidth}
+\centering
+\includegraphics[width=\linewidth]{static_figures/higher_order_VerbAgg_4obs_w02.png}
+\end{minipage}
+\caption{Higher-order refit paths for \texttt{grouseticks} (left) and \texttt{VerbAgg} (right). For each dataset, the panels show the refit path and its estimated second- and third-derivative profiles for the two largest-error and two smallest-error observations at \(w=0.2\); the legend reports the observation index and endpoint error \(e_{\mathrm{refit}}\), and multivariate paths are projected onto the endpoint direction in the top panel.}
+\label{fig:higher_order_paths_c}
+\end{figure}
+
+In \texttt{sleepstudy}, \texttt{cbpp}, and \texttt{grouseticks}, the two larger-error curves also showed more bending in the top panels and larger late-path derivative magnitudes in the lower panels. In \texttt{Arabidopsis}, the distinction between larger-error and smaller-error paths was less pronounced. In \texttt{Pastes}, the larger-error paths bent more, whereas the two smaller-error paths almost overlapped because their endpoint errors were tied and their refit paths were nearly identical. In \texttt{VerbAgg}, all four paths remained close to zero because the absolute perturbation scale was small.
+
+Section~\ref{sec:higher_order_theory} gives a scalar profiled-parameter Poisson mechanism for generic perturbation directions, with the one-case path as the sparse-direction corollary used here. Equations \eqref{eq:ho_u1} and \eqref{eq:ho_u2} show that the groupwise path bends most when the weighted residual aggregate is large in a weak-curvature group; under one-case deletion, this reduces to observations with large residuals in weak-curvature groups, and \eqref{eq:ho_u2_lb} gives the corresponding lower bound. In the scalar case, \eqref{eq:ho_theta_remainder} gives the exact endpoint remainder for \(|\Delta\vartheta_{\mathrm{refit}}-\Delta\vartheta_{\mathrm{pred}}|\) at the plotted endpoint \(\tau=0.8\), and \eqref{eq:ho_theta_remainder_lb} gives the corresponding local finite-step lower-bound mechanism for sufficiently small \(\tau\). In the multivariate panels, the endpoint-direction projection is only a one-dimensional diagnostic slice: it is not equal to \(e_{\mathrm{refit}}=\|\Delta\theta_{\mathrm{refit}}-\Delta\theta_{\mathrm{pred}}\|_2\), but it makes the same curvature mechanism visible when the endpoint mismatch is large.
+
+\FloatBarrier
+\subsection{AMIP path calibration}
+
+As an internal calibration check on the \(\theta\) scale, Figure~\ref{fig:amip_pred_vs_refit_compact} compares the ranked AMIP path with the explicit-refit path for the scalar target \(\phi(\theta)=\|\theta\|_2\). Both paths use the same ranked subsets on the same positive \(\alpha\)-grid. Across the plotted grids, the predicted and refit paths preserved the same ordering. The path correlations ranged from 0.971 to 0.998. At every plotted \(\alpha\), however, the refit change was larger than the AMIP prediction. At the common endpoint \(\alpha=0.2\), the relative underestimation was 0.44 in \texttt{Arabidopsis}, 0.48 in \texttt{cbpp}, 0.69 in \texttt{grouseticks}, 0.71 in \texttt{sleepstudy} and \texttt{Pastes}, and 0.97 in \texttt{VerbAgg}. In \texttt{VerbAgg}, the absolute scale was too small for that ratio to be stable.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{static_figures/amip_pred_vs_refit_all_datasets_loggrid.png}
+\caption{Ranked AMIP and refit paths for the scalar target \(\phi(\theta)=\|\theta\|_2\). Panels plot change from the baseline fit against positive \(\alpha\); the prediction uses AMIP-ranked subsets, the refit curve uses explicit refits for those same subsets, \texttt{sleepstudy}, \texttt{cbpp}, and \texttt{Pastes} use dataset-specific eight-point grids ending at \(\alpha=0.2\), and the remaining datasets use the common log-spaced grid.}
+\label{fig:amip_pred_vs_refit_compact}
+\end{figure}
+
+\FloatBarrier
+
+Figure~\ref{fig:amip_random_subset_control} replaces ranked AMIP prefixes with nested random prefixes. For each random order we took a prefix of the required size at each \(\alpha\), so larger subsets contained the smaller ones from the same order. The plotted curves are the median predicted and refit paths over ten seeded random orders (seeds \(42,62,\ldots,222\)). In \texttt{sleepstudy}, \texttt{cbpp}, and \texttt{Pastes}, the panels use denser dataset-specific eight-point \(\alpha\)-grids ending at \(0.2\) so that the smallest plotted subsets are nonempty. The remaining datasets use the common log-spaced \(\alpha\)-grid.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{static_figures/amip_pred_vs_refit_random_subsets_log_median_10seed_alpha02_customgrid.png}
+\caption{Nested random-subset control for the scalar path comparison with \(\phi(\theta)=\|\theta\|_2\). Panels plot change from the baseline fit against positive \(\alpha\); within each seed the subsets are nested prefixes of one random order, the curves are the median predicted and refit paths over ten seeded random orders, \texttt{sleepstudy}, \texttt{cbpp}, and \texttt{Pastes} use dataset-specific eight-point grids ending at \(\alpha=0.2\), and the remaining datasets use the common log-spaced grid.}
+\label{fig:amip_random_subset_control}
+\end{figure}
+
+\FloatBarrier
+
+In \texttt{sleepstudy} and \texttt{Pastes}, the median refit path remained well above the median prediction. In \texttt{Arabidopsis} and \texttt{VerbAgg}, the two medians moved closer once the subsets were no longer ranked by the local score. In \texttt{cbpp} and \texttt{grouseticks}, the median paths did not keep a stable sign over the full range, and in \texttt{grouseticks} the predicted and refit medians disagreed in sign over part of the panel.
+
+This one-sided AMIP underestimation is consistent with the generic profiled-path mechanism in Section~\ref{sec:higher_order_theory}. Equation \eqref{eq:ho_u2_zero} shows that, for nonnegative downweighting directions, any affected group with nonzero weighted residual aggregate curves in the same direction as its initial slope. Equation \eqref{eq:ho_theta_remainder} shows how that aligned curvature increases the finite-step refit, while \eqref{eq:ho_theta2_zero} shows that a flat outer path requires exact second-order cancellation across the affected groups.
+
+\FloatBarrier
+\subsection{Random stratified batch perturbations}
+
+The casewise derivative was also tested on random perturbations that changed many observations at once. In each dataset we fixed one total removal budget,
+\[
+\rho=\frac{\text{total raw weight removed}}{\text{total baseline raw weight}}=\frac{\sum_i (w_i-w_i')}{\sum_i w_i}=\frac{2}{56}.
+\]
+Here \(w_i\) is the baseline raw weight of observation \(i\), and \(w_i'\) is its weight after the perturbation. Thus \(\rho=2/56\) means that each batch removed about \(3.6\%\) of the total raw weight.
+
+To build one batch, we used the first grouping factor in the model. Within each group, we removed the same fraction \(\rho\). We then placed the observations in random order and removed them in that order until the group reached its target. Most selected observations were set to zero weight. If the next full removal would pass the target, the last observation was only partially downweighted so that the target was hit exactly. Repeating this construction in every group produced one batch. We generated 30 such batches, so each point in Figure~\ref{fig:random_group_batch_scatter} is one random batch.
+
+For each batch we computed the predicted and refit parameter changes. We measured their size with the baseline profiled-Hessian norm
+\[
+\|v\|_{H_0}=(v^\top H_0 v)^{1/2}.
+\]
+Here \(H_0\) is the profiled Hessian at the baseline fit. This norm gives a curvature-weighted measure of the parameter change around that fit.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{static_figures/random_group_batch_scatter_rho036.png}
+\caption{Predicted versus refit batch perturbations at fixed budget \(\rho=2/56\). Each point is one random batch formed by removing the same raw-weight fraction within each group of the chosen stratifying factor; \texttt{sleepstudy}, \texttt{cbpp}, \texttt{Pastes}, \texttt{Arabidopsis}, and \texttt{grouseticks} use the first grouping factor in the model, whereas the displayed \texttt{VerbAgg} panel uses \texttt{item} rather than \texttt{id}. Both axes use the baseline profiled-Hessian norm.}
+\label{fig:random_group_batch_scatter}
+\end{figure}
+
+Figure~\ref{fig:random_group_batch_scatter} shows close agreement in all displayed batch panels. In \texttt{sleepstudy}, \texttt{cbpp}, \texttt{Pastes}, \texttt{Arabidopsis}, and \texttt{grouseticks}, the unified first-factor construction gave Hessian-norm correlations between 0.992 and 1.000. In \texttt{VerbAgg}, the displayed \texttt{item}-stratified control gave a correlation of 0.995 and produced a broad diagonal spread of predicted and refit norms. We do not show the default \texttt{id}-stratified construction because all 316 \texttt{id} levels have the same size 24, so at \(\rho=2/56\) each replicate removes almost the same amount from every \texttt{id}, and the panel contracts to a narrow, nearly vertical band.
+
+\subsection{Controlled \texorpdfstring{$n/q$}{n/q} simulation}
+
+We simulated Poisson random-intercept GLMMs of the form
+\[
+y_{ig}\sim \mathrm{Poisson}\!\left(\exp(\beta_0+\beta_1 x_{ig}+u_g)\right),
+\qquad
+u_g\sim \mathcal N(0,\sigma_u^2),
+\]
+with \(G=80\) grouping levels, \(\beta_0=0.25\), \(\beta_1=0.35\), and \(\sigma_u=0.60\). Because \(q=G\) in this design, the average cluster size determined \(n/q\). We evaluated 15 \(n/q\) values from 2 to 70. We also varied two nuisance factors. Singleton share took values \(\{0,0.25,0.5\}\) and is the fraction of grouping levels that contain exactly one observation. The imbalance regime controls how unequal the non-singleton group sizes are, with balanced, moderate, and high indicating progressively more uneven group sizes. In each design cell we fit one synthetic dataset. We then selected six observations and downweighted each one once at \(w=0.8\) and once at \(w=0.2\). For each perturbation we computed the first-order change and the explicit-refit change. Their difference was summarized by
+\[
+m:=
+\frac{\|\Delta\theta_{\mathrm{refit}}-\Delta\theta_{\mathrm{pred}}\|_2}
+{\max\!\left(\|\Delta\theta_{\mathrm{refit}}\|_2,\|\Delta\theta_{\mathrm{pred}}\|_2,10^{-12}\right)},
+\]
+which we call the normalized prediction mismatch. We then took the median of \(m\) over the nine combinations of singleton share and imbalance at each \(n/q\).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{static_figures/structural_regime_n_over_q_primary.png}
+\caption{Controlled structural simulation for single-observation downweighting in Poisson random-intercept GLMMs. The figure plots the median normalized prediction mismatch \(m\) against \(n/q\), where \(q\) is the random-effect mode dimension. At each \(n/q\), the median is taken over nine nuisance settings given by three singleton-share values and three imbalance regimes; singleton share is the fraction of grouping levels with exactly one observation, imbalance describes how unequal the non-singleton group sizes are, and colors indicate the downweighting level.}
+\label{fig:structural_regime_n_over_q}
+\end{figure}
+
+At the stronger perturbation \(w=0.2\), Figure~\ref{fig:structural_regime_n_over_q} shows that the median normalized mismatch generally decreased as \(n/q\) increased. The median mismatch was 0.388 at \(n/q=2\), 0.174 at \(n/q=4\), 0.061 at \(n/q=20\), 0.042 at \(n/q=40\), and 0.073 at \(n/q=70\). The \(w=0.8\) series changed less across the same range, but its larger values also occurred in the lowest-\(n/q\) regimes. Across these simulated datasets, lower \(n/q\) was associated with larger finite-step departures.
+
+These simulation results matched the fitted datasets in Table~\ref{tab:dataset_summary} and the pointwise results in Figure~\ref{fig:pred_vs_obtained_compact}. The low-\(n/q\) datasets \texttt{Pastes} (1.50), \texttt{grouseticks} (3.42), and \texttt{cbpp} (3.73) contained the larger finite-step departures, and \texttt{grouseticks} had the lowest pointwise correlation. \texttt{Arabidopsis} (312.50) lay at the opposite end of the \(n/q\) range and its single-observation panel remained close to the diagonal. \texttt{sleepstudy} (5.00) and \texttt{VerbAgg} (22.31) fell between those ranges.
+
+Section~\ref{sec:higher_order_theory} gives the corresponding profiled-path scaling argument in \eqref{eq:ho_curvature_ratio}. In the Poisson random-intercept slice of Section~\ref{sec:higher_order_theory}, the final low-occupancy corollary specializes the generic directional formulas to sparse perturbations and shows that lower occupancy \(K=N/G\) increases the curvature-to-slope ratio at order \(1/K\). In the fitted-data experiments, \(n/q\) is therefore used only as a heuristic occupancy proxy rather than as a universal theorem for all GLMM covariance paths.
+
+This is also the same qualitative occupancy pattern seen in \citet[Sec.~4.1]{GiordanoBroderick2024BayesIJVariance} for MCMC-based Bayesian IJ variance: when \(N/G=1\), the IJ covariance underestimates the simulated truth because the local posterior \(P(\lambda_g\mid X)\) remains dispersed, whereas by \(N/G=10\) the approximation improves substantially. In the Section~\ref{sec:higher_order_theory} Laplace/MMLE slice, \(H_i^{-1}\) is the local Laplace variance of the affected random effect, so small \(K=N/G\) again means weak local concentration and larger curvature relative to first-order slope. Because the estimands differ, this should be read as agreement in mechanism rather than as a claim of identical numerical results.
+
+
+
+
