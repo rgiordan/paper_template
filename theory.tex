@@ -1,0 +1,50 @@
+
+\begin{assu}\label{assu:assumptions}
+A Poincare inequality and perturbation in $L2$ and stuff
+\end{assu}
+
+
+
+\begin{thm}\label{thm:existence}[Previous author citations]
+    Under \cref{assu:assumptions}, there is a solution to the PDE.
+\end{thm}
+
+I just love \cref{thm:existence}.  We use the Petrov-Galerkin approximation.
+
+\begin{thm}\label{thm:consistency}
+    As the number of basis functions and test functions goes to infinity
+    you converge to the solution.
+\end{thm}
+
+
+\begin{assu}\label{assu:bclt}
+    Bernstein-von Mises like conditions.
+\end{assu}
+
+When you have a BCLT it's better.
+
+\begin{thm}\label{thm:hermite}
+    Under \cref{assu:bclt}
+    he Hermite polynomials give the best approximation the the inverse in operator norm.
+\end{thm}
+
+So when you have a bootstrap perturbation (parametric or nonparametric)
+and a BCLT then
+
+\begin{assu}\label{assu:hermite}
+    Let a function of interest be expandable in the Hermite polynomials
+    with such-and-such coefficient decay.
+\end{assu}
+
+
+\begin{thm}\label{thm:bootstrap}
+    Under \cref{assu:bclt,assu:hermite} the second-order Hermite polynomial flow
+    is accurate asymptotically for bootstrap perturbations and expectations
+    of a function of interest.
+\end{thm}
+
+\begin{cor}\label{cor:smooth}
+    Smooth functions of a countable number of functions of interest are also consistent
+    as in \cref{thm:bootstrap}.
+\end{cor}
+

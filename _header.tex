@@ -1,0 +1,82 @@
+\usepackage{graphicx} % Required for inserting images
+\usepackage{subcaption}
+\usepackage[
+    backend=biber,
+    style=authoryear,
+    sorting=nyt,
+    natbib=true,
+    uniquename=false
+    ]{biblatex}
+\addbibresource{refs.bib}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathrsfs,mathtools}
+\usepackage{bm} % for bold math
+\usepackage{todonotes}
+\usepackage{accents} % For oversetting things like the double tilde
+\usepackage{appendix}
+
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{algpseudocode}
+
+\theoremstyle{plain}% default
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}{Lemma}[section]
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}{Corollary}
+
+\usepackage{bm}
+
+\usepackage{fullpage}
+\usepackage{setspace}
+
+\theoremstyle{definition}
+\newtheorem{assu}{Assumption}[section]
+\newtheorem{defn}{Definition}[section]
+\newtheorem{conj}{Conjecture}[section]
+\newtheorem{exmp}{Example}[section]
+
+\theoremstyle{definition}
+\newtheorem{remark}{Remark}[section]
+
+% Put QED symbols to close assumptions and examples.
+\AtEndEnvironment{assu}{\pushQED{\qed}\popQED}
+\AtEndEnvironment{exmp}{\pushQED{\qed}\popQED}
+\renewcommand{\qedsymbol}{$\square$}
+
+% Add extra vertical space before theorem-like environments.
+\AtBeginEnvironment{thm}{\par\addvspace{\bigskipamount}}
+\AtBeginEnvironment{lem}{\par\addvspace{\bigskipamount}}
+\AtBeginEnvironment{prop}{\par\addvspace{\bigskipamount}}
+\AtBeginEnvironment{cor}{\par\addvspace{\bigskipamount}}
+\AtBeginEnvironment{assu}{\par\addvspace{\bigskipamount}}
+\AtBeginEnvironment{defn}{\par\addvspace{\bigskipamount}}
+\AtBeginEnvironment{conj}{\par\addvspace{\bigskipamount}}
+\AtBeginEnvironment{exmp}{\par\addvspace{\bigskipamount}}
+\AtBeginEnvironment{remark}{\par\addvspace{\bigskipamount}}
+
+
+\usepackage[colorlinks=true,citecolor=blue,linkcolor=blue,urlcolor=blue]{hyperref} % Must be loaded right here for some reason
+\usepackage{cleveref}
+
+\crefname{defn}{Definition}{Definitions}
+\Crefname{defn}{Definition}{Definitions}
+\crefname{lem}{Lemma}{Lemmas}
+\Crefname{lem}{Lemma}{Lemmas}
+\crefname{thm}{Theorem}{Theorems}
+\Crefname{thm}{Theorem}{Theorems}
+\crefname{cor}{Corollary}{Corollaries}
+\Crefname{cor}{Corollary}{Corollaries}
+\crefname{assu}{Assumption}{Assumptions}
+\Crefname{assu}{Assumption}{Assumptions}
+\crefname{exmp}{Example}{Examples}
+\Crefname{exmp}{Example}{Examples}
+\crefname{remark}{Remark}{Remarks}
+\Crefname{remark}{Remark}{Remarks}
+\crefname{appendix}{Appendix}{Appendices}
+\Crefname{appendix}{Appendix}{Appendices}
+
+
+
+
+% \usepackage{todonotes}
+\usepackage{appendix}
+

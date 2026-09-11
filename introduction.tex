@@ -1,1 +1,12 @@
-What a great paper we have written!
+Most local Bayesian sensitivity analysis uses series expansions of
+expectations.  Some problems:
+%
+\begin{itemize}
+\item Can produce impossible posteriors (negative variances)
+\item Some things depend on a large or infinite number of moments (quantiles, more complex functionals)
+\item MCMC noise
+\item People like draws not analytic expressions
+\end{itemize}
+%
+So we do flows.  We particularly focus on approximating the bootstrap, though our methodology is
+general.

@@ -1,25 +1,9 @@
 \documentclass{article}
 
-% Language setting
-% Replace `english' with e.g. `spanish' to change the document language
-\usepackage[english]{babel}
-
-% Set page size and margins
-% Replace `letterpaper' with `a4paper' for UK/EU standard size
-\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
-
-% Useful packages
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{float}
-\usepackage{graphicx}
-\usepackage{placeins}
-\usepackage[colorlinks=true, allcolors=blue]{hyperref}
-\usepackage[numbers,square,sort&compress]{natbib}
-\bibliographystyle{unsrtnat}
-
+\include{_header}
 \input{_knitr_header}
 \input{figures_knitr}
+
 \DefineMacros{}
 
 \title{Your Paper}
@@ -36,16 +20,48 @@ Your abstract.
 \section{Introduction}
 \input{introduction}
 
+
+\section{Theory and methods}
+\input{theory}
+
+
+\section{Experiments}
+\input{experiments}
+
+
 \section{Knitr Example}
 
-There are $\NumRows$ in the example.
+There are $\NumRows$ rows in the example.
 
 \ExamplePlot{}
 
 \ExampleTable{}
 
 
-\clearpage
-\bibliography{sample}
 
+
+
+
+
+
+\section{Data and software availability}
+
+Code to produce all the experiments of our paper
+can be found at the git repo\\
+\url{...}.  An
+open-source software implementation of MrPlew is available
+at \url{...}.
+
+\newpage
+\printbibliography
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\begin{appendices}
+\crefalias{section}{appendix}
+
+\section{Stuff}\label{app:stuff}
+\end{appendices}
 \end{document}
